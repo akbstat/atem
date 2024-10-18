@@ -1,4 +1,4 @@
-{
+let data = {
     "pages": [
         {
             "module_name": "Vital Sign",
@@ -142,4 +142,4 @@
             ]
         }
     ]
-}
+};

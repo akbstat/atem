@@ -1,98 +1,84 @@
 <!DOCTYPE html>
 <html>
 
-<body>
-    <div id="demo"></div>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
+</head>
 
+<body>
+    <div id="root"></div>
+    <div class="content">
+        <div class="header">
+            <div class="left">
+                <div>Project Name: AK105-302</div>
+                <div>Form: Visit</div>
+            </div>
+            <div class="right">
+                <div class="annotation-0">VS = Vital Sign</div>
+                <div class="annotation-0">VSCAT = General</div>
+            </div>
+            <div class="right">
+                <div class="annotation-1">VS = Vital Sign</div>
+                <div class="annotation-1">VSCAT = General</div>
+            </div>
+            <div class="right">
+                <div class="annotation-2">VS = Vital Sign</div>
+                <div class="annotation-2">VSCAT = General</div>
+            </div>
+        </div>
+        <div class="items">
+            <div class="item">
+                <div class="question">
+                    <div>Were assessments performed at this visit?</div>
+                    <div class="annotation-0">VSYN</div>
+                    <div class="annotation-1">VSYN</div>
+                    <div class="annotation-2">VSYN</div>
+                </div>
+                <div class="option">
+                    <div><input type="checkbox" />No</div>
+                    <div class="annotation-0">VSYN</div>
+                    <div class="annotation-1">VSYN</div>
+                    <div class="annotation-2">VSYN</div>
+                </div>
+                <div class="option">
+                    <div><input type="checkbox" />Yes</div>
+                    <div class="annotation-0">VSYN</div>
+                    <div class="annotation-1">VSYN</div>
+                    <div class="annotation-2">VSYN</div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="question">
+                    <div>Physical Examination not done reason?</div>
+                    <div class="annotation-0">VSYN</div>
+                    <div class="annotation-1">VSYN</div>
+                    <div class="annotation-2">VSYN</div>
+                </div>
+                <div class="text"></div>
+            </div>
+            <div class="item">
+                <div class="question">
+                    <div class="question-content">
+                        <div>Age</div>
+                        <div class="annotation-0">AGE</div>
+                        <div class="annotation-1">AGE</div>
+                        <div class="annotation-2">AGE</div>
+                    </div>
+                    <div class="fixed-unit">
+                        <div class="annotation-0">AGEU</div>
+                        <div class="annotation-1">AGEU</div>
+                        <div class="annotation-2">AGEU</div>
+                        <div class="fixed-unit-display">Fixed Unit: Years</div>
+                    </div>
+                </div>
+                <div class="text"></div>
+            </div>
+        </div>
+    </div>
 </body>
 
-<script>
-    const data = {
-        "pages": [
-            {
-                "module_name": "Module 0",
-                "items": [
-                    {
-                        "item_name": "item 0",
-                        "item_type": "text",
-                        "anno": [
-                            {
-                                "value": "Item Anno 0",
-                                "group": 0
-                            }
-                        ]
-                    },
-                    {
-                        "item_name": "item 1",
-                        "item_type": "selection",
-                        "selection": [
-                            {
-                                "label": "selection a",
-                                "anno": [
-                                    {
-                                        "value": "Selection Anno 0",
-                                        "group": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "label": "selection b",
-                                "anno": [
-                                    {
-                                        "value": "Selection Anno 0",
-                                        "group": 0
-                                    }
-                                ]
-                            },
-                            {
-                                "label": "selection v",
-                                "anno": [
-                                    {
-                                        "value": "Selection Anno 0",
-                                        "group": 0
-                                    }
-                                ]
-                            },
-                        ],
-                        "anno": [
-                            {
-                                "value": "Item Anno 1",
-                                "group": 0
-                            }
-                        ]
-                    }
-                ],
-                "anno": [
-                    {
-                        "value": "Anno 0",
-                        "group": 0
-                    }
-                ]
-            }
-        ]
-    };
-    let target = document.getElementById("demo");
-    data.pages.forEach(page => {
-        let pageNode = document.createElement("div");
-        let moduleNameNode = document.createElement("h1");
-        moduleNameNode.innerText = page.module_name;
-        pageNode.appendChild(moduleNameNode);
-        page.items.forEach(item => {
-            let itemNode = document.createElement("div");
-            itemNode.innerText = item.item_name;
-            pageNode.appendChild(itemNode);
-            if (item.selection) {
-                let list = document.createElement("ul");
-                item.selection.forEach(selection => {
-                    let selectionNode = document.createElement("li");
-                    selectionNode.innerText = selection.label;
-                    list.appendChild(selectionNode);
-                });
-                pageNode.appendChild(list);
-            }
-        });
-        target.appendChild(pageNode);
-    });
-</script>
+
+<script src="operation.js"></script>
 
 </html>
