@@ -1,0 +1,1335 @@
+{
+    "id": 1,
+    "name": "XX001-001",
+    "forms": [
+        {
+            "id": 1,
+            "name": "AE",
+            "label": "不良事件/严重不良事件评估",
+            "group": [
+                {
+                    "id": 0,
+                    "name": "AE",
+                    "label": "不良事件"
+                }
+            ],
+            "anno": [],
+            "items": [
+                {
+                    "id": 1,
+                    "name": "AEYN",
+                    "label": "是否发生不良事件？",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578927277,
+                            "group": 0,
+                            "value": "[NOT SUBMITTED]",
+                            "assign": true
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 1,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 2,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "AETERM",
+                    "label": "不良事件名称",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743578931421,
+                            "group": 0,
+                            "value": "AETERM",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 3,
+                    "name": "AESTDAT",
+                    "label": "开始日期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743578935517,
+                            "group": 0,
+                            "value": "AESTDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 4,
+                    "name": "AEENDAT",
+                    "label": "结束日期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743578939837,
+                            "group": 0,
+                            "value": "AEENDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 5,
+                    "name": "AELABEL1",
+                    "label": "符合的AESI标准（多选）：",
+                    "itemType": "label",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 6,
+                    "name": "AESI1",
+                    "label": "严重感染",
+                    "itemType": "checkbox",
+                    "anno": [
+                        {
+                            "id": 1743578948613,
+                            "group": 0,
+                            "value": "AESI1 in SUPPAE",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 7,
+                    "name": "AESI2",
+                    "label": "全身性或广泛超敏反应",
+                    "itemType": "checkbox",
+                    "anno": [
+                        {
+                            "id": 1743578953325,
+                            "group": 0,
+                            "value": "AESI2 in SUPPAE",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 8,
+                    "name": "AESI3",
+                    "label": "睑缘炎（重度或严重或持续>=4周）",
+                    "itemType": "checkbox",
+                    "anno": [
+                        {
+                            "id": 1743578957381,
+                            "group": 0,
+                            "value": "AESI3 in SUPPAE",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 9,
+                    "name": "AESI4",
+                    "label": "任何类型的结膜炎 （重度或严重或持续>=4周）",
+                    "itemType": "checkbox",
+                    "anno": [
+                        {
+                            "id": 1743578960701,
+                            "group": 0,
+                            "value": "AESI4 in SUPPAE",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 10,
+                    "name": "AESER",
+                    "label": "是否为严重不良事件(SAE)？",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578965612,
+                            "group": 0,
+                            "value": "AESER",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 3,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 4,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 11,
+                    "name": "AELABEL2",
+                    "label": "符合的严重不良事件标准：",
+                    "itemType": "label",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 12,
+                    "name": "AESDTH",
+                    "label": "导致死亡",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578972524,
+                            "group": 0,
+                            "value": "AESDTH",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 5,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 6,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 13,
+                    "name": "AESLIFE",
+                    "label": "危及生命",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578976581,
+                            "group": 0,
+                            "value": "AESLIFE",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 7,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 8,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 14,
+                    "name": "AESHOSP",
+                    "label": "导致住院或住院时间延长",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578980812,
+                            "group": 0,
+                            "value": "AESHOSP",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 9,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 10,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 15,
+                    "name": "AESDISAB",
+                    "label": "导致永久或严重的残疾/能力丧失",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578985388,
+                            "group": 0,
+                            "value": "AESDISAB",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 11,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 12,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 16,
+                    "name": "AESCONG",
+                    "label": "先天性异常/出生缺陷",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743578989788,
+                            "group": 0,
+                            "value": "AESCONG",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 13,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 14,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "DM",
+            "label": "人口统计学资料",
+            "group": [
+                {
+                    "id": 0,
+                    "name": "DM",
+                    "label": "人口学"
+                },
+                {
+                    "id": 1,
+                    "name": "DC",
+                    "label": "人口学采集"
+                }
+            ],
+            "anno": [],
+            "items": [
+                {
+                    "id": 17,
+                    "name": "BRTHDAT",
+                    "label": "出生日期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579018820,
+                            "group": 0,
+                            "value": "BRTHDTC",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579026861,
+                            "group": 1,
+                            "value": "BRTHDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 18,
+                    "name": "AGE",
+                    "label": "年龄",
+                    "itemType": "text",
+                    "unit": {
+                        "name": "岁",
+                        "anno": [
+                            {
+                                "id": 1743579045205,
+                                "group": 0,
+                                "value": "AGEU",
+                                "assign": true
+                            },
+                            {
+                                "id": 1743579049860,
+                                "group": 1,
+                                "value": "AGEU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "anno": [
+                        {
+                            "id": 1743579032884,
+                            "group": 0,
+                            "value": "AGE",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579038668,
+                            "group": 1,
+                            "value": "AGE",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 19,
+                    "name": "SEX",
+                    "label": "性别",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579055941,
+                            "group": 0,
+                            "value": "SEX",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579059805,
+                            "group": 1,
+                            "value": "SEX",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 15,
+                            "label": "男性",
+                            "anno": []
+                        },
+                        {
+                            "id": 16,
+                            "label": "女性",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 20,
+                    "name": "FECUND",
+                    "label": "若为女性，是否有生育的可能性？",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579096405,
+                            "group": 0,
+                            "value": "FECUND in SUPPDM",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579102213,
+                            "group": 1,
+                            "value": "FECUND in SUPPDC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 17,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 18,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 21,
+                    "name": "FECREAND",
+                    "label": "若否，请选择原因",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579153820,
+                            "group": 0,
+                            "value": "FECREAND in SUPPDM",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579166604,
+                            "group": 1,
+                            "value": "FECREAND in SUPPDC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 19,
+                            "label": "绝经",
+                            "anno": []
+                        },
+                        {
+                            "id": 20,
+                            "label": "绝育",
+                            "anno": []
+                        },
+                        {
+                            "id": 21,
+                            "label": "其他",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 22,
+                    "name": "FECREAO",
+                    "label": "若为其他，请描述",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 23,
+                    "name": "ETHNIC",
+                    "label": "民族",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579115389,
+                            "group": 0,
+                            "value": "CETHNIC in SUPPDM",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579120829,
+                            "group": 1,
+                            "value": "CETHNIC in SUPPDC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 22,
+                            "label": "汉族",
+                            "anno": []
+                        },
+                        {
+                            "id": 23,
+                            "label": "其他",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 24,
+                    "name": "ETHNOTH",
+                    "label": "若为其他，请描述",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579125789,
+                            "group": 0,
+                            "value": "ETHNICO in SUPPDM",
+                            "assign": false
+                        },
+                        {
+                            "id": 1743579131197,
+                            "group": 1,
+                            "value": "ETHNICO in SUPPDC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "EG",
+            "label": "12导联心电图",
+            "group": [
+                {
+                    "id": 0,
+                    "name": "EG",
+                    "label": "心电图"
+                }
+            ],
+            "anno": [],
+            "items": [
+                {
+                    "id": 25,
+                    "name": "EGPERF",
+                    "label": "是否进行心电图检查？",
+                    "itemType": "selection",
+                    "anno": [],
+                    "options": [
+                        {
+                            "id": 22,
+                            "label": "是",
+                            "anno": [
+                                {
+                                    "id": 1743579184541,
+                                    "group": 0,
+                                    "value": "[NOT SUBMITTED]",
+                                    "assign": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": 23,
+                            "label": "否",
+                            "anno": [
+                                {
+                                    "id": 1743579188180,
+                                    "group": 0,
+                                    "value": "EGSTAT = 未查 when EGTESTCD = EGALL",
+                                    "assign": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 26,
+                    "name": "EGREASND",
+                    "label": "若否，请说明原因",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579191796,
+                            "group": 0,
+                            "value": "EGREASND",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 27,
+                    "name": "EGDAT",
+                    "label": "检查日期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579197220,
+                            "group": 0,
+                            "value": "EGDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 28,
+                    "name": "EGTIM",
+                    "label": "检查时间",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579199756,
+                            "group": 0,
+                            "value": "EGDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 29,
+                    "name": "EGHR",
+                    "label": "心率",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579226325,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = EGHRMN",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "次/分",
+                        "anno": [
+                            {
+                                "id": 1743579205772,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 30,
+                    "name": "EGRR",
+                    "label": "RR 间期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579229973,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = RRAG",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "msec",
+                        "anno": [
+                            {
+                                "id": 1743579208820,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 31,
+                    "name": "EGPR",
+                    "label": "PR 间期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579234020,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = PRAG",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "msec",
+                        "anno": [
+                            {
+                                "id": 1743579211596,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 32,
+                    "name": "EGQRS",
+                    "label": "QRS",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579238221,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = QRSAG",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "msec",
+                        "anno": [
+                            {
+                                "id": 1743579214084,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 33,
+                    "name": "EGQT",
+                    "label": "QT 间期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579254605,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = QTAG",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "msec",
+                        "anno": [
+                            {
+                                "id": 1743579216548,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 34,
+                    "name": "EGQTC",
+                    "label": "QTc",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579242781,
+                            "group": 0,
+                            "value": "EGORRES when EGTESTCD = QTCBAG / QTCFAG / QTCMAG",
+                            "assign": false
+                        }
+                    ],
+                    "unit": {
+                        "name": "msec",
+                        "anno": [
+                            {
+                                "id": 1743579219676,
+                                "group": 0,
+                                "value": "EGORRESU",
+                                "assign": true
+                            }
+                        ]
+                    },
+                    "options": []
+                },
+                {
+                    "id": 35,
+                    "name": "EGQTCMET",
+                    "label": "QTc计算方法",
+                    "itemType": "selection",
+                    "anno": [],
+                    "options": [
+                        {
+                            "id": 24,
+                            "label": "Bazett公式",
+                            "anno": [
+                                {
+                                    "id": 1743579260293,
+                                    "group": 0,
+                                    "value": "EGTESTCD = QTCBAG",
+                                    "assign": false
+                                }
+                            ]
+                        },
+                        {
+                            "id": 25,
+                            "label": "Fridericia公式",
+                            "anno": [
+                                {
+                                    "id": 1743579263948,
+                                    "group": 0,
+                                    "value": "EGTESTCD = QTCFAG",
+                                    "assign": false
+                                }
+                            ]
+                        },
+                        {
+                            "id": 26,
+                            "label": "机器读取",
+                            "anno": [
+                                {
+                                    "id": 1743579267676,
+                                    "group": 0,
+                                    "value": "EGTESTCD = QTCMAG",
+                                    "assign": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 36,
+                    "name": "EGCLSIG",
+                    "label": "心电图总体结果评价",
+                    "itemType": "selection",
+                    "anno": [],
+                    "options": [
+                        {
+                            "id": 27,
+                            "label": "正常",
+                            "anno": [
+                                {
+                                    "id": 1743579275796,
+                                    "group": 0,
+                                    "value": "EGORRES = 正常 when EGTESTCD = INTP",
+                                    "assign": false
+                                }
+                            ]
+                        },
+                        {
+                            "id": 28,
+                            "label": "异常，无临床意义",
+                            "anno": [
+                                {
+                                    "id": 1743579281196,
+                                    "group": 0,
+                                    "value": "EGORRES = 异常 when EGTESTCD = INTP",
+                                    "assign": false
+                                },
+                                {
+                                    "id": 1743579287052,
+                                    "group": 0,
+                                    "value": "EGCLSIG = N in SUPPEG",
+                                    "assign": false
+                                }
+                            ]
+                        },
+                        {
+                            "id": 29,
+                            "label": "异常，有临床意义",
+                            "anno": [
+                                {
+                                    "id": 1743579283141,
+                                    "group": 0,
+                                    "value": "EGORRES = 异常 when EGTESTCD = INTP",
+                                    "assign": false
+                                },
+                                {
+                                    "id": 1743579291556,
+                                    "group": 0,
+                                    "value": "EGCLSIG = Y in SUPPEG",
+                                    "assign": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 37,
+                    "name": "EGSPEC",
+                    "label": "若异常，请说明",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579295708,
+                            "group": 0,
+                            "value": "EGDESC in SUPPEG",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "EC",
+            "label": "试验药物注射记录",
+            "group": [
+                {
+                    "id": 0,
+                    "name": "EC",
+                    "label": "暴露采集"
+                }
+            ],
+            "anno": [
+                {
+                    "id": 1743579319868,
+                    "group": 0,
+                    "value": "ECPRESP = Y",
+                    "assign": true
+                }
+            ],
+            "items": [
+                {
+                    "id": 38,
+                    "name": "ECYN",
+                    "label": "受试者本访视是否接受了试验药物给药？",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579323741,
+                            "group": 0,
+                            "value": "ECOCCUR",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 30,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 31,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 39,
+                    "name": "ECREASND",
+                    "label": "未给药原因",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579329844,
+                            "group": 0,
+                            "value": "ECREASOC in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 32,
+                            "label": "不良事件",
+                            "anno": []
+                        },
+                        {
+                            "id": 33,
+                            "label": "突发公共卫生事件或其他不可抗力",
+                            "anno": []
+                        },
+                        {
+                            "id": 34,
+                            "label": "其他",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 40,
+                    "name": "ECAENO1",
+                    "label": "若未给药原因为不良事件，请选择不良事件编号",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579335564,
+                            "group": 0,
+                            "value": "ECREAENO in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 41,
+                    "name": "ECREAOTH",
+                    "label": "若为其他，请说明",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579340204,
+                            "group": 0,
+                            "value": "ECREOTH in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 42,
+                    "name": "ECLOT",
+                    "label": "药物编号",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579344788,
+                            "group": 0,
+                            "value": "ECREFID",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 43,
+                    "name": "ECSTDAT",
+                    "label": "注射日期",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579350980,
+                            "group": 0,
+                            "value": "ECSTDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 44,
+                    "name": "ECSTTIM",
+                    "label": "注射开始时间",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579353156,
+                            "group": 0,
+                            "value": "ECSTDTC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 45,
+                    "name": "ECLOC",
+                    "label": "注射部位",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579357972,
+                            "group": 0,
+                            "value": "ECLOC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 35,
+                            "label": "腹部",
+                            "anno": []
+                        },
+                        {
+                            "id": 36,
+                            "label": "上臂",
+                            "anno": []
+                        },
+                        {
+                            "id": 37,
+                            "label": "大腿",
+                            "anno": []
+                        },
+                        {
+                            "id": 38,
+                            "label": "其他",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 46,
+                    "name": "ECLOCSP",
+                    "label": "其他，请说明",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579390860,
+                            "group": 0,
+                            "value": "ECLOCOTH in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 47,
+                    "name": "ECCOMYN",
+                    "label": "是否完成药物注射？",
+                    "itemType": "selection",
+                    "anno": [
+                        {
+                            "id": 1743579395668,
+                            "group": 0,
+                            "value": "ECCOMPNY in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": [
+                        {
+                            "id": 39,
+                            "label": "是",
+                            "anno": []
+                        },
+                        {
+                            "id": 40,
+                            "label": "否",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 48,
+                    "name": "ECNCREA",
+                    "label": "若否，请说明原因",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579411484,
+                            "group": 0,
+                            "value": "ECCOMREA in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 49,
+                    "name": "ECAENO2",
+                    "label": "若为不良事件，请选择不良事件编号",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579416324,
+                            "group": 0,
+                            "value": "ECCOAENO in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                },
+                {
+                    "id": 50,
+                    "name": "ECNCREAO",
+                    "label": "若为其他，请说明",
+                    "itemType": "text",
+                    "anno": [
+                        {
+                            "id": 1743579420435,
+                            "group": 0,
+                            "value": "ECCOOTH in SUPPEC",
+                            "assign": false
+                        }
+                    ],
+                    "options": []
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "LBOTH",
+            "label": "其他实验室检查",
+            "group": [],
+            "anno": [],
+            "items": [
+                {
+                    "id": 51,
+                    "name": "LBTEST5",
+                    "label": "检查名称",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 52,
+                    "name": "LBDAT5",
+                    "label": "采样日期",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 53,
+                    "name": "LBORRES5",
+                    "label": "检查结果",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 54,
+                    "name": "LBUNIT5",
+                    "label": "单位",
+                    "itemType": "selection",
+                    "anno": [],
+                    "options": [
+                        {
+                            "id": 41,
+                            "label": "%",
+                            "anno": []
+                        },
+                        {
+                            "id": 42,
+                            "label": "10^6/L",
+                            "anno": []
+                        },
+                        {
+                            "id": 43,
+                            "label": "10^9/L",
+                            "anno": []
+                        },
+                        {
+                            "id": 44,
+                            "label": "cells/uL",
+                            "anno": []
+                        },
+                        {
+                            "id": 45,
+                            "label": "IU/L",
+                            "anno": []
+                        },
+                        {
+                            "id": 46,
+                            "label": "其他",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 55,
+                    "name": "LBUNITO5",
+                    "label": "若为其他，请说明",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 56,
+                    "name": "LBRNRLO5",
+                    "label": "正常值范围下限",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 57,
+                    "name": "LBRNRHI5",
+                    "label": "正常值范围上限",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                },
+                {
+                    "id": 58,
+                    "name": "LBCLSIG5",
+                    "label": "结果评估",
+                    "itemType": "selection",
+                    "anno": [],
+                    "options": [
+                        {
+                            "id": 47,
+                            "label": "正常",
+                            "anno": []
+                        },
+                        {
+                            "id": 48,
+                            "label": "异常，无临床意义",
+                            "anno": []
+                        },
+                        {
+                            "id": 49,
+                            "label": "异常，有临床意义",
+                            "anno": []
+                        }
+                    ]
+                },
+                {
+                    "id": 59,
+                    "name": "LBDESC5",
+                    "label": "如异常有临床意义，请说明",
+                    "itemType": "text",
+                    "anno": [],
+                    "options": []
+                }
+            ]
+        }
+    ]
+}
