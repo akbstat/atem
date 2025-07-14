@@ -1,0 +1,15 @@
+[package]
+name = "atem"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1.88"
+calamine = "0.28.0"
+reqwest = { version = "0.12.15", features = ["json"] }
+serde = { version = "1.0.219", features = ["derive"] }
+thiserror = "2.0.12"
+url = "2.5.4"
+tokio = { version = "1.45.0", features = ["full"] }
+
+[dev-dependencies]
