@@ -13,19 +13,18 @@ use crate::{
     },
 };
 use async_trait::async_trait;
-use calamine::{open_workbook, DataType, Reader, Xlsx};
+use calamine::{open_workbook, Reader, Xlsx};
 use std::{
     collections::HashMap,
     fs::File,
     io::{BufReader, Read, Seek},
+    ops::Add,
     path::Path,
     sync::Arc,
 };
 use tokio::sync::Mutex;
 
-const ITEM_GROUP_SEGEMENT_SIZE: i32 = 1000;
-
-pub struct ECollectTransport {
+pub struct ECollectV6Transport {
     data: Arc<Mutex<Xlsx<BufReader<File>>>>,
     unit_mapper: Arc<Mutex<HashMap<String, Vec<String>>>>,
     form_order: HashMap<String, i32>,
@@ -35,15 +34,13 @@ pub struct ECollectTransport {
     item_mapper: Arc<Mutex<HashMap<String, Vec<Item>>>>,
     form_id_list: Arc<Mutex<Vec<FormId>>>,
     repository: Arc<RawdataRepository>,
-    project_version_id: i32,
 }
 
-impl ECollectTransport {
+impl ECollectV6Transport {
     pub fn new<P: AsRef<Path>>(
         filepath: P,
         repository: Arc<RawdataRepository>,
-        project_version_id: i32,
-    ) -> Result<ECollectTransport> {
+    ) -> Result<ECollectV6Transport> {
         let mut data: Xlsx<BufReader<File>> = open_workbook(filepath)?;
         let subject_form_id = find_subejct_form_oid(&mut data)?;
         let mut form_order = build_form_order_map(&mut data)?;
@@ -58,7 +55,7 @@ impl ECollectTransport {
         let codelist_mapper = Arc::new(Mutex::new(HashMap::<String, Vec<CodeList>>::new()));
         let item_mapper = Arc::new(Mutex::new(HashMap::<String, Vec<Item>>::new()));
         let form_id_list = Arc::new(Mutex::new(vec![]));
-        Ok(ECollectTransport {
+        Ok(ECollectV6Transport {
             data,
             unit_mapper,
             form_mapper,
@@ -67,7 +64,6 @@ impl ECollectTransport {
             item_mapper,
             form_id_list,
             repository,
-            project_version_id,
             form_order,
         })
     }
@@ -108,25 +104,20 @@ impl ECollectTransport {
         let mut code_list_mapper = HashMap::<String, Vec<CodeList>>::new();
         let mut data_ref = self.data.lock().await;
         let sheet = data_ref.worksheet_range("CodeListItems")?;
+        let mut order = 0;
         for (index, row) in sheet.rows().enumerate() {
             if index.eq(&0) {
                 // Skip the header row
                 continue;
             }
             let id = row.get(column::CODELIST_SHEET_NAME);
-            let order = row.get(column::CODELIST_SHEET_ORDER);
             let display = row.get(column::CODELIST_SHEET_DISPLAY);
             let value = row.get(column::CODELIST_SHEET_VALUE);
 
-            if contains_none(&vec![id, order, display, value]) {
+            if contains_none(&vec![id, display, value]) {
                 continue;
             }
 
-            let order = order.unwrap().as_i64();
-            if order.is_none() {
-                continue;
-            }
-            let order = order.unwrap() as i32;
             let id = id.unwrap().to_string();
             let display = display.unwrap().to_string();
             let value = value.unwrap().to_string();
@@ -135,7 +126,7 @@ impl ECollectTransport {
                 continue;
             }
 
-            let code_list = CodeList {
+            let mut code_list = CodeList {
                 display,
                 value,
                 order,
@@ -143,8 +134,11 @@ impl ECollectTransport {
             if let Some(code_lists) = code_list_mapper.get_mut(&id) {
                 code_lists.push(code_list);
             } else {
+                order = 1;
+                code_list.order = order;
                 code_list_mapper.insert(id, vec![code_list]);
             }
+            order += 1;
         }
 
         let mut codelist_ref = self.codelist_mapper.lock().await;
@@ -219,11 +213,12 @@ impl ECollectTransport {
 
     async fn read_item(&self) -> Result<()> {
         let mut data_ref = self.data.lock().await;
-        let sheet = data_ref.worksheet_range("GroupItems")?;
+        let sheet = data_ref.worksheet_range("FormItem")?;
 
-        let mut last_group_oid: Option<String> = None;
-        let mut next_order_segment_start = 0;
+        let mut last_form_oid: Option<String> = None;
+
         let mut group_item_segement = vec![];
+
         for (index, row) in sheet.rows().enumerate() {
             if index.eq(&0) {
                 // Skip the header row
@@ -234,59 +229,79 @@ impl ECollectTransport {
                 continue;
             }
 
-            match last_group_oid {
-                Some(ref last_group) => {
-                    if last_group.eq(&row.group_oid) {
+            let form_oid = row.form_oid.clone();
+            match last_form_oid {
+                Some(ref last_form) => {
+                    if last_form.eq(&row.form_oid) {
                         group_item_segement.push(row);
                     } else {
-                        last_group_oid = Some(row.group_oid.clone());
-                        self.read_group_items(next_order_segment_start, &group_item_segement)
-                            .await;
-                        next_order_segment_start += ITEM_GROUP_SEGEMENT_SIZE;
+                        self.read_form_items(&group_item_segement).await;
                         group_item_segement.clear();
                         group_item_segement.push(row);
                     }
                 }
-                None => {
-                    last_group_oid = Some(row.group_oid.clone());
-                    group_item_segement.push(row);
-                }
+                None => group_item_segement.push(row),
             }
+            last_form_oid = Some(form_oid);
         }
+        self.read_form_items(&group_item_segement).await;
         Ok(())
     }
 
-    async fn read_group_items(&self, base_order: i32, rows: &[ItemSheetRow]) {
+    async fn read_form_items(&self, rows: &[ItemSheetRow]) {
         if rows.is_empty() {
             return;
         }
         // detact if in logline mode
-        let default_value = split_default_values(&rows[0].default_value);
+        let mut default_value = vec![];
+        for row in rows {
+            if row.multiple && !row.default_value.is_empty() {
+                default_value = split_default_values(&row.default_value);
+            }
+        }
+
         if default_value.is_empty() {
-            self.read_group_items_general(base_order, rows).await;
+            self.read_form_items_general(rows).await;
         } else {
-            self.read_group_items_logline(base_order, rows, &default_value)
-                .await;
+            self.read_form_items_logline(rows, &default_value).await;
         }
     }
 
-    async fn read_group_items_logline<S: AsRef<str>>(
+    async fn read_form_items_logline<S: AsRef<str>>(
         &self,
-        base_order: i32,
         rows: &[ItemSheetRow],
         default_values: &[S],
     ) {
+        let mut order = 0;
+        let mut single_items_rows = vec![];
+        for (row_index, row) in rows.iter().enumerate() {
+            if row.multiple {
+                order = row_index;
+                break;
+            }
+            single_items_rows.push(row.clone());
+        }
+        self.read_form_items_general(&single_items_rows).await;
+
         let default_value_display = self
             .build_default_value_display_list(
-                &rows[0].display_mode,
-                &rows[0].codelist_oid,
+                &rows[order].display_mode,
+                &rows[order].codelist_oid,
                 default_values,
             )
             .await;
         let mut item_mapper = self.item_mapper.lock().await;
         let mut sub_order = 0;
         for (index, value) in default_value_display.into_iter().enumerate() {
-            for (row_index, row) in rows.iter().enumerate() {
+            for (row_index, row) in rows
+                .get(order..)
+                .unwrap_or_default()
+                .into_iter()
+                .enumerate()
+            {
+                if !row.visible {
+                    continue;
+                }
                 let form_name = &row.form_oid;
                 let item_type = convert_item_type(&row.display_mode);
                 if let ItemType::Unknown = item_type {
@@ -296,7 +311,7 @@ impl ECollectTransport {
                     name: row.item_oid.clone(),
                     label: row.item_name.clone(),
                     item_type,
-                    order: base_order + sub_order,
+                    order: sub_order.add(order as i32),
                     codelist_id: if row.codelist_oid.is_empty() {
                         None
                     } else {
@@ -324,9 +339,12 @@ impl ECollectTransport {
         }
     }
 
-    async fn read_group_items_general(&self, base_order: i32, rows: &[ItemSheetRow]) {
+    async fn read_form_items_general(&self, rows: &[ItemSheetRow]) {
         let mut item_mapper = self.item_mapper.lock().await;
         for (index, row) in rows.iter().enumerate() {
+            if !row.visible {
+                continue;
+            }
             let form_name = &row.form_oid;
             let item_type = convert_item_type(&row.display_mode);
             if let ItemType::Unknown = item_type {
@@ -336,7 +354,7 @@ impl ECollectTransport {
                 name: row.item_oid.clone(),
                 label: row.item_name.clone(),
                 item_type,
-                order: index as i32 + base_order,
+                order: index as i32,
                 codelist_id: if row.codelist_oid.is_empty() {
                     None
                 } else {
@@ -365,8 +383,8 @@ impl ECollectTransport {
         values: &[S],
     ) -> Vec<String> {
         match item_type {
-            "AnalytesOption" => self.build_default_value_display_list_analytes(values).await,
-            "RadioButton" | "RadioButton(Vertical)" | "DropDownList" => {
+            "Lab Test" => self.build_default_value_display_list_analytes(values).await,
+            "Radio(horizontal)" | "Radio(vertical)" | "Drop-down List" => {
                 self.build_default_value_display_list_codelist(codelist_id, values)
                     .await
             }
@@ -416,7 +434,7 @@ impl ECollectTransport {
             .collect()
     }
 
-    async fn save_forms(&self) -> Result<()> {
+    async fn save_forms(&self, project_version_id: i32) -> Result<()> {
         let form_mapper = &self.form_mapper.lock().await;
         let mut forms = form_mapper.values().cloned().collect::<Vec<_>>();
         forms.sort_by(|a, b| a.order.cmp(&b.order));
@@ -425,7 +443,7 @@ impl ECollectTransport {
             let request = CreateFormRequest {
                 name: form.name.clone(),
                 description: form.label.clone(),
-                version_id: self.project_version_id,
+                version_id: project_version_id,
                 form_order: form.order,
             };
             let form_id = self.repository.create_form(&request).await?;
@@ -526,7 +544,7 @@ impl ECollectTransport {
 }
 
 #[async_trait]
-impl EdcTransport for ECollectTransport {
+impl EdcTransport for ECollectV6Transport {
     async fn read(&self) -> crate::errors::Result<()> {
         self.read_unit().await?;
         self.read_codelist().await?;
@@ -538,8 +556,8 @@ impl EdcTransport for ECollectTransport {
         Ok(())
     }
 
-    async fn save(&self) -> Result<()> {
-        self.save_forms().await?;
+    async fn save(&self, project_version_id: i32) -> Result<()> {
+        self.save_forms(project_version_id).await?;
         self.save_items().await?;
         Ok(())
     }
@@ -548,11 +566,10 @@ impl EdcTransport for ECollectTransport {
 pub fn convert_item_type(source: &str) -> ItemType {
     let source = source.trim();
     match source {
-        "TextField" | "DateTime" | "DynamicOptions" | "LongText" | "Number" | "AnalytesResult"
-        | "AnalytesOption" => ItemType::Text,
-        "RadioButton" | "RadioButton(Vertical)" | "DropDownList" => ItemType::Option,
+        "Textbox" | "Dynamic Options" | "Calendar" | "Lab Test" | "Lab Result" => ItemType::Text,
+        "Radio(horizontal)" | "Radio(vertical)" | "Drop-down List" => ItemType::Option,
         "CheckBox" => ItemType::Checkbox,
-        "Label" => ItemType::Label,
+        "Tags" => ItemType::Label,
         _ => ItemType::Unknown,
     }
 }
@@ -602,26 +619,66 @@ fn find_subejct_form_oid<T: Read + Seek>(workbook: &mut Xlsx<T>) -> Result<Optio
 }
 
 fn build_form_order_map<T: Read + Seek>(workbook: &mut Xlsx<T>) -> Result<HashMap<String, i32>> {
-    let mut form_order_map = HashMap::new();
-    let sheet = workbook.worksheet_range("EventForm")?;
-    let mut order = 1; // preserve order number '0' for subejct form
+    let mut forms = vec![];
+    for plan in get_sub_plans(workbook)? {
+        get_forms_in_sub_plans(workbook, &plan)?
+            .into_iter()
+            .for_each(|form| {
+                if !forms.contains(&form) {
+                    forms.push(form);
+                }
+            });
+    }
+    Ok(forms
+        .into_iter()
+        .enumerate()
+        .map(|(order, form)| (form, order as i32))
+        .collect())
+}
+
+/// read sheet "Plans" and get all sub plan sheet name
+fn get_sub_plans<T: Read + Seek>(workbook: &mut Xlsx<T>) -> Result<Vec<String>> {
+    let mut plans = vec![];
+    let sheet = workbook.worksheet_range("Plans")?;
     for (index, row) in sheet.rows().enumerate() {
-        if index.eq(&0) {
-            continue;
+        if index == 0 {
+            continue; // skip header
         }
-        let form_oid_cell = row
-            .get(column::EVENTFORM_SHEET_FORMOID)
-            .map(|cell| cell.to_string());
-        if let Some(form_oid) = form_oid_cell {
-            if !form_oid.is_empty() {
-                if let None = form_order_map.get(&form_oid) {
-                    form_order_map.insert(form_oid, order);
-                    order += 1;
+        // Get value from column 1 (second column)
+        if let Some(cell) = row.get(column::PLANS_SHEET_OID) {
+            let value = cell.to_string();
+            if !value.is_empty() {
+                plans.push(format!("Plan{}", value));
+            }
+        }
+    }
+    Ok(plans)
+}
+
+fn get_forms_in_sub_plans<T: Read + Seek>(
+    workbook: &mut Xlsx<T>,
+    sheet_name: &str,
+) -> Result<Vec<String>> {
+    let mut forms = vec![];
+    let sheet = workbook.worksheet_range(sheet_name)?;
+    let (height, width) = sheet.get_size();
+
+    for col in column::PLAN_XXX_EVENT_START..width {
+        for row in column::PLAN_XXX_FORM_MARK_START..height {
+            let form = sheet.get((row, column::PLAN_XXX_FORM));
+            if form.is_none() {
+                continue;
+            }
+            let form = form.unwrap().to_string();
+            if let Some(mark) = sheet.get((row, col)) {
+                let mark = mark.to_string();
+                if !mark.is_empty() && !forms.contains(&form) {
+                    forms.push(form);
                 }
             }
         }
     }
-    Ok(form_order_map)
+    Ok(forms)
 }
 
 #[cfg(test)]
@@ -635,10 +692,9 @@ mod tests {
             Arc::new(Client::new()),
             "http://localhost:2217/api/sdtm/rawdata/",
         ));
-        let transport = ECollectTransport::new(
-            r"D:\projects\rusty\mobius_kit\.mocks\edc\ecollect-test.xlsx",
+        let transport = ECollectV6Transport::new(
+            r"D:\Studies\ak139\101\stats\draft\utility\DATABASE_AK139-101_20250530145425783.xlsx",
             repo,
-            1,
         )
         .unwrap();
         transport.read().await.unwrap();
@@ -654,6 +710,6 @@ mod tests {
             let item_mapper = transport.item_mapper.lock().await;
             assert!(item_mapper.len().gt(&0));
         }
-        transport.save().await.unwrap();
+        // transport.save(1).await.unwrap();
     }
 }

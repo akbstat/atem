@@ -15,7 +15,7 @@ use crate::{
             ModifyProjectVersionRequest,
         },
     },
-    edc::{save_edc, TransportParam},
+    edc::{new_edc_transport, TransportParam},
     entity::annotation::AnnotationCollection,
     errors::Result,
     repository::{
@@ -34,7 +34,7 @@ use reqwest::{
     header::{HeaderMap, HeaderValue},
     Client,
 };
-use std::{path::Path, sync::Arc};
+use std::sync::Arc;
 
 pub struct AtemUsecase {
     rawdata: RawdataRepository,
@@ -73,11 +73,14 @@ impl AtemUsecase {
         }
     }
 
-    pub async fn save_edc<P: AsRef<Path>>(&self, param: TransportParam<P>) -> Result<()> {
-        let repo = Arc::new(self.rawdata.clone());
-        save_edc(&param, repo).await?;
-        Ok(())
-    }
+    // pub async fn save_edc<P: AsRef<Path>>(&self, param: TransportParam<P>) -> Result<()> {
+    //     let repo = Arc::new(self.rawdata.clone());
+    //     if let Some(transport) = new_edc_transport(&param, repo).await? {
+    //         transport.read().await?;
+    //         transport.save(param.project_version_id).await?;
+    //     }
+    //     Ok(())
+    // }
 
     pub async fn list_project_version(
         &self,
@@ -88,34 +91,41 @@ impl AtemUsecase {
     }
 
     pub async fn create_project_version(&self, request: &CreateEDCVersionRequest) -> Result<()> {
-        if let Some(data) = self
-            .rawdata
-            .find_project(&FindProjectRequest {
-                product: request.product.to_owned(),
-                trial: request.trial.to_owned(),
-            })
-            .await?
+        let kind = match request.edc_kind {
+            1 => EdcKind::ECollectElder,
+            2 => EdcKind::ECollectV6,
+            _ => return Ok(()),
+        };
+        let repo = Arc::new(self.rawdata.clone());
+        if let Some(transport) = new_edc_transport(
+            &TransportParam {
+                kind,
+                config_filepath: &request.edc_filepath,
+            },
+            repo,
+        )
+        .await?
         {
-            let version = self
+            transport.read().await?;
+            if let Some(data) = self
                 .rawdata
-                .create_project_version(&CreateProjectVersionRequest {
-                    project_id: data.id,
-                    name: request.version_name.to_owned(),
+                .find_project(&FindProjectRequest {
+                    product: request.product.to_owned(),
+                    trial: request.trial.to_owned(),
                 })
-                .await?;
-            let kind = match request.edc_kind {
-                1 => EdcKind::ECollect,
-                _ => return Ok(()),
-            };
-            save_edc(
-                &TransportParam {
-                    kind,
-                    config_filepath: Path::new(&request.edc_filepath),
-                    project_version_id: version.id,
-                },
-                Arc::new(self.rawdata.clone()),
-            )
-            .await?;
+                .await?
+            {
+                let version = self
+                    .rawdata
+                    .create_project_version(&CreateProjectVersionRequest {
+                        project_id: data.id,
+                        name: request.version_name.to_owned(),
+                    })
+                    .await?;
+                {
+                    transport.save(version.id).await?;
+                }
+            }
         }
         Ok(())
     }
