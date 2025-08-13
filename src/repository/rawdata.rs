@@ -7,7 +7,8 @@ use super::dto::rawdata::{
 use crate::{
     dto::rawdata::{
         CreateProjectVersionReply, CreateProjectVersionRequest, FindProjectReply,
-        FindProjectRequest, ModifyProjectVersionReply, ModifyProjectVersionRequest, Project,
+        FindProjectRequest, GetItemByIdReply, GetOptionByIdReply, GetUnitByIdReply, Item,
+        ItemOption, ItemUnit, ModifyProjectVersionReply, ModifyProjectVersionRequest, Project,
         ProjectVersion,
     },
     errors::Result,
@@ -113,6 +114,27 @@ impl RawdataRepository {
         let response = self.client.get(url).send().await?;
         let reply = response.json::<GetFormByIdReply>().await?;
         Ok(reply)
+    }
+
+    pub async fn get_item_by_id(&self, id: i32) -> Result<Option<Item>> {
+        let url = self.base_url.join(&format!("item/{id}"))?;
+        let response = self.client.get(url).send().await?;
+        let reply = response.json::<GetItemByIdReply>().await?;
+        Ok(reply.data)
+    }
+
+    pub async fn get_option_by_id(&self, id: i32) -> Result<Option<ItemOption>> {
+        let url = self.base_url.join(&format!("item/option/{id}"))?;
+        let response = self.client.get(url).send().await?;
+        let reply = response.json::<GetOptionByIdReply>().await?;
+        Ok(reply.data)
+    }
+
+    pub async fn get_unit_by_id(&self, id: i32) -> Result<Option<ItemUnit>> {
+        let url = self.base_url.join(&format!("item/unit/{id}"))?;
+        let response = self.client.get(url).send().await?;
+        let reply = response.json::<GetUnitByIdReply>().await?;
+        Ok(reply.data)
     }
 
     pub async fn list_items(&self, request: &ListItemsRequest) -> Result<ListItemsReply> {

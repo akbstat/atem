@@ -123,7 +123,7 @@ pub struct ListItemTypesReply {
     pub data: Vec<ItemType>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Item {
     pub id: i32,
@@ -193,6 +193,7 @@ pub struct CreateItemReply {
 #[serde(rename_all = "camelCase")]
 pub struct ItemOption {
     pub id: i32,
+    pub item_id: i32,
     pub option_value: String,
     pub option_display: String,
     pub option_order: i32,
@@ -221,6 +222,7 @@ pub struct CreateItemUnitRequest {
 #[serde(rename_all = "camelCase")]
 pub struct ItemUnit {
     pub id: i32,
+    pub item_id: i32,
     pub name: String,
     pub unit_order: i32,
 }
@@ -288,4 +290,19 @@ pub struct FormAnnotation {
     pub option_annotation: Vec<Annotation>,
     pub unit_annotation: Vec<Annotation>,
     pub value_annotation: Vec<Annotation>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GetItemByIdReply {
+    pub data: Option<Item>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GetOptionByIdReply {
+    pub data: Option<ItemOption>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GetUnitByIdReply {
+    pub data: Option<ItemUnit>,
 }

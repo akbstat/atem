@@ -95,6 +95,12 @@ impl AnnotationRepository {
         Ok(result.data)
     }
 
+    pub async fn remove_annotation_version(&self, id: i32) -> Result<()> {
+        let url = self.base_url.join(&format!("version/{}", id))?;
+        self.client.delete(url).send().await?;
+        Ok(())
+    }
+
     pub async fn list_annotation_by_form(
         &self,
         request: ListAnnotationByFormRequest,

@@ -11,8 +11,8 @@ use crate::{
             SdtmDomain, SdtmVariable, SdtmVersion,
         },
         rawdata::{
-            CreateEDCVersionRequest, CreateProjectVersionRequest, FindProjectRequest,
-            ModifyProjectVersionRequest,
+            CreateEDCVersionRequest, CreateProjectVersionRequest, FindProjectRequest, Item,
+            ItemOption, ItemUnit, ModifyProjectVersionRequest,
         },
     },
     edc::{new_edc_transport, TransportParam},
@@ -154,6 +154,21 @@ impl AtemUsecase {
         Ok(form)
     }
 
+    pub async fn get_item_by_id(&self, id: i32) -> Result<Option<Item>> {
+        let item = self.rawdata.get_item_by_id(id).await?;
+        Ok(item)
+    }
+
+    pub async fn get_option_by_id(&self, id: i32) -> Result<Option<ItemOption>> {
+        let option = self.rawdata.get_option_by_id(id).await?;
+        Ok(option)
+    }
+
+    pub async fn get_unit_by_id(&self, id: i32) -> Result<Option<ItemUnit>> {
+        let unit = self.rawdata.get_unit_by_id(id).await?;
+        Ok(unit)
+    }
+
     pub async fn list_annotation_version(
         &self,
         request: ListAnnotationVersionRequest,
@@ -177,6 +192,11 @@ impl AtemUsecase {
         self.annotation
             .modify_annotation_version(id, request)
             .await?;
+        Ok(())
+    }
+
+    pub async fn remove_annotation_version(&self, id: i32) -> Result<()> {
+        self.annotation.remove_annotation_version(id).await?;
         Ok(())
     }
 
